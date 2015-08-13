@@ -10,6 +10,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import org.apache.commons.io.FileUtils;
 
@@ -18,6 +19,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class ToDoListActivity extends AppCompatActivity {
+
+    private final int REQUEST_CODE = 20;
+
     ListView listView;
     ArrayList<String> items;
     ArrayAdapter<String> itemsAdapter;
@@ -83,12 +87,24 @@ public class ToDoListActivity extends AppCompatActivity {
                 Intent intent = new Intent(ToDoListActivity.this, EditItemActivity.class);
                 intent.putExtra("position", position);
                 intent.putExtra("item", itemText);
-                startActivity(intent);
+                startActivityForResult(intent, REQUEST_CODE);
             }
         });
     }
 
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK && requestCode == REQUEST_CODE) {
+            String item = data.getExtras().getString("item");
+            int position = data.getExtras().getInt("position", 0);
+            items.set(position, item);
+            itemsAdapter.notifyDataSetChanged();
+        }
+    }
+
+
+    /////////////////////
     // Persistent Storage
 
     private void readItems() {

@@ -10,9 +10,6 @@ import android.widget.EditText;
 
 public class EditItemActivity extends AppCompatActivity {
 
-    private final int REQUEST_CODE = 20;
-
-    String itemText;
     int position;
 
     @Override
@@ -20,7 +17,7 @@ public class EditItemActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_item);
 
-        itemText = getIntent().getStringExtra("item");
+        String itemText = getIntent().getStringExtra("item");
         position = getIntent().getIntExtra("position", -1);
 
         EditText editText = (EditText)findViewById(R.id.editText2);
@@ -49,10 +46,12 @@ public class EditItemActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void onClick(View view) {
-        Intent i = new Intent(EditItemActivity.this, ToDoListActivity.class);
-        i.putExtra("position", position);
-        i.putExtra("item", itemText);
-        startActivityForResult(i, REQUEST_CODE);
+    public void onSave(View v) {
+        EditText editText = (EditText) findViewById(R.id.editText2);
+        Intent data = new Intent();
+        data.putExtra("item", editText.getText().toString());
+        data.putExtra("position", position);
+        setResult(RESULT_OK, data);
+        finish();
     }
 }
