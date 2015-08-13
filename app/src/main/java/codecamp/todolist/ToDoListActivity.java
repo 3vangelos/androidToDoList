@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -26,6 +27,7 @@ public class ToDoListActivity extends AppCompatActivity {
         listView.setAdapter(itemsAdapter);
         items.add("get a spot in Android CodeCamp");
         items.add("get ready to code");
+        setupListViewListener();
     }
 
     @Override
@@ -55,5 +57,16 @@ public class ToDoListActivity extends AppCompatActivity {
         String itemText = editText.getText().toString();
         itemsAdapter.add(itemText);
         editText.setText("");
+    }
+
+    private void setupListViewListener() {
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                items.remove(position);
+                itemsAdapter.notifyDataSetChanged();
+                return true;
+            }
+        });
     }
 }
