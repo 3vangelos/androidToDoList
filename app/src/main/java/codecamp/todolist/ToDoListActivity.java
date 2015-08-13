@@ -10,6 +10,10 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 
+import org.apache.commons.io.FileUtils;
+
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class ToDoListActivity extends AppCompatActivity {
@@ -22,11 +26,10 @@ public class ToDoListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_to_do_list);
         listView = (ListView) findViewById(R.id.listView);
-        items = new ArrayList<String>();
+        readItems();
+
         itemsAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, items);
         listView.setAdapter(itemsAdapter);
-        items.add("get a spot in Android CodeCamp");
-        items.add("get ready to code");
         setupListViewListener();
     }
 
@@ -57,6 +60,7 @@ public class ToDoListActivity extends AppCompatActivity {
         String itemText = editText.getText().toString();
         itemsAdapter.add(itemText);
         editText.setText("");
+        writeItems();
     }
 
     private void setupListViewListener() {
@@ -65,8 +69,33 @@ public class ToDoListActivity extends AppCompatActivity {
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 items.remove(position);
                 itemsAdapter.notifyDataSetChanged();
+                writeItems();
                 return true;
             }
         });
     }
+
+
+    // Persistent Storage
+
+    private void readItems() {
+        File filesDir = getFilesDir();
+        File todoFile = new File(filesDir, "todoList.txt");
+        try {
+            items = new ArrayList<String>(FileUtils.readLines(todoFile));
+        } catch (IOException e) {
+            items = new ArrayList<String>();
+        }
+    }
+
+    private void writeItems() {
+        File filesDir = getFilesDir();
+        File todoFile = new File(filesDir, "todoList.txt");
+        try {
+            FileUtils.writeLines(todoFile, items);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
