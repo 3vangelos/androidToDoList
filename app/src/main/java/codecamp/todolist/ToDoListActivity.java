@@ -4,13 +4,26 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+
+import java.util.ArrayList;
 
 public class ToDoListActivity extends AppCompatActivity {
+    ListView listView;
+    ArrayList<String> items;
+    ArrayAdapter<String> itemsAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_to_do_list);
+        listView = (ListView) findViewById(R.id.listView);
+        items = new ArrayList<String>();
+        itemsAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, items);
+        listView.setAdapter(itemsAdapter);
+        items.add("get a spot in Android CodeCamp");
+        items.add("get ready to code");
     }
 
     @Override
