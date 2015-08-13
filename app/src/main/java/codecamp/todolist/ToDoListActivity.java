@@ -100,6 +100,7 @@ public class ToDoListActivity extends AppCompatActivity {
             int position = data.getExtras().getInt("position", 0);
             items.set(position, item);
             itemsAdapter.notifyDataSetChanged();
+            writeItems();
         }
     }
 
