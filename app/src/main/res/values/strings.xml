@@ -7,4 +7,5 @@
     <string name="textView_hint_add">Add a new item</string>
     <string name="title_activity_edit_item">EditItemActivity</string>
     <string name="button_title_save">Save</string>
+    <string name="edit_activity_label_title">Edit Item below:</string>
 </resources>
