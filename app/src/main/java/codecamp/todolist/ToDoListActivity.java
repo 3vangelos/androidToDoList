@@ -1,5 +1,6 @@
 package codecamp.todolist;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -71,6 +72,18 @@ public class ToDoListActivity extends AppCompatActivity {
                 itemsAdapter.notifyDataSetChanged();
                 writeItems();
                 return true;
+            }
+        });
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String itemText = items.get(position);
+
+                Intent intent = new Intent(ToDoListActivity.this, EditItemActivity.class);
+                intent.putExtra("position", position);
+                intent.putExtra("item", itemText);
+                startActivity(intent);
             }
         });
     }
