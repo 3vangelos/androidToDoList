@@ -4,7 +4,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -46,5 +48,12 @@ public class ToDoListActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void onAddItem(View v) {
+        EditText editText = (EditText) findViewById(R.id.editText);
+        String itemText = editText.getText().toString();
+        itemsAdapter.add(itemText);
+        editText.setText("");
     }
 }
